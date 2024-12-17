@@ -1,0 +1,34 @@
+site_name: Tecnun-eRacing Wiki
+site_url: https://ozuba.eus/eRacingWiki
+theme:
+  name: material
+  language: es
+  logo: assets/images/logo.svg
+  favicon: assets/images/favicon.svg
+
+  palette:
+    scheme: default
+    primary: black
+
+  font: false
+
+  features:
+  - navigation.tabs
+
+
+
+nav:
+  - Home: index.md
+  - Electronics:
+    - Electronics/electronics.md
+    - PCBS:
+      - Pedal: Electronics/PCBS/pedal.md
+  - Driverless: Driverless/driverless.md
+
+
+
+extra_css:
+  - assets/css/extra.css
+
+extra:
+  generator: false
