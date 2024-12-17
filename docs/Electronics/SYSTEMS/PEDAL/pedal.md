@@ -1,3 +1,6 @@
+<kicanvas-embed src="../TER_PEDAL.kicad_pcb" controls="basic"></kicanvas-embed>
+
+
 # TeR_PEDAL : Hardware Engineering Report
 La placa PEDAL del vehiculo TeR, es la encargada de recopilar todos los inputs que el piloto introduce al coche, Acelerador (APPS), 
 Freno Delantero (BPPS) y Volante (STEER). Los datos obtenidos serán utilizados por la ECU para gestionar el par comandado al powertrain.

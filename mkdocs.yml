@@ -21,14 +21,19 @@ nav:
   - Home: index.md
   - Electronics:
     - Electronics/electronics.md
-    - PCBS:
-      - Pedal: Electronics/PCBS/pedal.md
+    - Systems:
+      - Pedal: Electronics/SYSTEMS/PEDAL/pedal.md
+      - Ecu: Electronics/SYSTEMS/ECU/ecu.md
+    - Library: 
+       - CAN: Electronics/LIBRARY/canbus.md
+    - C: Electronics/GNUC/gnuc.md
   - Driverless: Driverless/driverless.md
 
 
 
 extra_css:
   - assets/css/extra.css
-
+extra_javascript:
+  - assets/js/kicanvas.js
 extra:
   generator: false
