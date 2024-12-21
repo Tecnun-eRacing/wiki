@@ -27,7 +27,12 @@ nav:
     - Library: 
        - CAN: Electronics/LIBRARY/canbus.md
     - C: Electronics/GNUC/gnuc.md
-  - Driverless: Driverless/driverless.md
+  - Driverless: 
+    - Driverless/driverless.md
+    - MirenaSim:
+      - Driverless/MirenaSim/MirenaSim.md
+      - YOLOV8 Train: Driverless/MirenaSim/YoloTraining.md
+
 
 
 
