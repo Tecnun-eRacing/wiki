@@ -1,0 +1,1175 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ozuba.eus/eRacingWiki/Driverless/MirenaSim/YoloTraining/">
+      
+      
+        <link rel="prev" href="../MirenaSim/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>YOLOV8 Train - Tecnun-eRacing Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/css/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tutorial-training-yolov8-para-reconocer-conos-de-un-feed-de-video" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../../.." title="Tecnun-eRacing Wiki" class="md-header__button md-logo" aria-label="Tecnun-eRacing Wiki" data-md-component="logo">
+      
+  <img src="../../../assets/images/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tecnun-eRacing Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              YOLOV8 Train
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Electronics/electronics/" class="md-tabs__link">
+          
+  
+  Electronics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../driverless/" class="md-tabs__link">
+          
+  
+  Driverless
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tecnun-eRacing Wiki" class="md-nav__button md-logo" aria-label="Tecnun-eRacing Wiki" data-md-component="logo">
+      
+  <img src="../../../assets/images/logo.svg" alt="logo">
+
+    </a>
+    Tecnun-eRacing Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Electronics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Electronics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Electronics/electronics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Electronics Main Page
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Systems
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Systems
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Electronics/SYSTEMS/PEDAL/pedal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pedal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Electronics/SYSTEMS/ECU/ecu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ecu
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Library
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Library
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Electronics/LIBRARY/canbus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CAN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Electronics/GNUC/gnuc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Driverless
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Driverless
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../driverless/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Driverless
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    MirenaSim
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            MirenaSim
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MirenaSim/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MirenaSim
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    YOLOV8 Train
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    YOLOV8 Train
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisitos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisitos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generacion-del-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generación del dataset
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generar-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generar Datos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exportar-datos-y-entrenar-la-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exportar datos y entrenar la red
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisitos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisitos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generacion-del-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generación del dataset
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generar-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generar Datos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exportar-datos-y-entrenar-la-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exportar datos y entrenar la red
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="tutorial-training-yolov8-para-reconocer-conos-de-un-feed-de-video">Tutorial: Training YOLOV8 para reconocer Conos de un feed de video</h1>
+<p>Para Implementar el pipeline de percepción es necesario el uso 
+de una red neuronal que localice y clasifique los obstaculos que el 
+coche enfrenta por pantalla, creemos que es algo clave en el desarrollo del
+proyecto dado que las cámaras son sensores baratos, rápidos y que aportan
+muchisima información semantica de la situación de la pista.</p>
+<h2 id="prerequisitos">Prerequisitos</h2>
+<p>Un entorno con:</p>
+<ul>
+<li>ROS2 Instalado</li>
+<li>mirena_ws instalado</li>
+<li>un entorno virtual python con ultralytics</li>
+<li>Un sistema acelerado por gráfica como google colab/DIPC  para entrenar</li>
+</ul>
+<h3 id="generacion-del-dataset">Generación del dataset</h3>
+<p>Necesitaremos Generar 2 conjuntos de datos:
+- Un set de entrenamiento
+- Un set de validación</p>
+<p>Para elegir donde generá el simulador cada set de datos entraremos al editor
+y cambiaremos la opción Dataset Path del objeto MirenaCam correspondiente.
+<img alt="DatasetPath" src="../assets/datasetPath.png" /></p>
+<p>Podemos elegirlo solo una vez y despues separar manualmente las imagenes que
+queramos para los distintos sets, si queremos podemos darle al play para 
+arrancar el simulador o compilarlo con colcon y lanzarlo
+a través de <code>ros2 launch</code></p>
+<h3 id="generar-datos">Generar Datos</h3>
+<p>Cargamos una pista con la tecla m (Hay una pista por defecto en el folder MirenaSim)
+Conducimos el vehículo por medio de un mando, deteniendolo para tomar 
+capturas de cada frame (Para evitar un bug de desync entre fisicas y frame que desencuadra el dataset)
+<img alt="running" src="../assets/driving.png" /></p>
+<h3 id="exportar-datos-y-entrenar-la-red">Exportar datos y entrenar la red</h3>
+<p>Una vez hayamos obtenido la cantidad deseada de datos en distintas posiciones
+separamos nuestros 2 sets antes mencionados y nos disponemos a entrenar la red.</p>
+<p>Necesitaremos añadir un fichero data.yml para coordinar el entrenamiento
+la documentación de yolo indica como debe estar estructurado, adjunto el 
+siguiente ejemplo:</p>
+<pre><code class="language-yaml"># Paths
+train: ./train  # Path to training images
+val: ./val      # Path to validation images
+
+# Dataset
+names:
+  0: blue
+  1: yellow
+
+# Model
+model: yolov8n.pt  # Pre-trained model checkpoint to start training (e.g., yolov8n, yolov8s, yolov8m)
+
+# Training Parameters
+epochs: 50               # Number of epochs
+batch: 16                # Batch size
+workers: 8               # Number of data-loading threads
+project: runs/train      # Save results to runs/train
+name: yolov8_custom      # Name of the experiment
+device: 0                # Device to train on (e.g., 0 for GPU, 'cpu' for CPU, or '0,1' for multi-GPU)
+
+# Optimization
+optimizer: SGD           # Optimizer: SGD, Adam, or AdamW
+lr0: 0.01                # Initial learning rate
+momentum: 0.937          # Momentum for SGD
+weight_decay: 0.0005     # Weight decay
+warmup_epochs: 3.0       # Warmup epochs
+warmup_momentum: 0.8     # Warmup momentum
+warmup_bias_lr: 0.1      # Warmup initial bias learning rate
+
+# Augmentations
+hsv_h: 0.015             # Image hue augmentation (fraction)
+hsv_s: 0.7               # Image saturation augmentation (fraction)
+hsv_v: 0.4               # Image value augmentation (fraction)
+degrees: 0.0             # Image rotation (+/- degrees)
+translate: 0.1           # Image translation (+/- fraction)
+scale: 0.5               # Image scale (+/- gain)
+shear: 0.0               # Image shear (+/- degrees)
+perspective: 0.0         # Image perspective (+/- fraction), range 0-0.001
+flipud: 0.0              # Vertical flip (probability)
+fliplr: 0.5              # Horizontal flip (probability)
+mosaic: 1.0              # Mosaic augmentation (probability)
+mixup: 0.0               # Mixup augmentation (probability)
+
+# Logging and Saving
+save: True               # Save the model after every epoch
+exist_ok: False          # Overwrite existing project folder if it exists
+</code></pre>
+<p>Nos tiene que quedar la siguente configuración de ficheros</p>
+<pre><code class="language-bash">├── data.yml
+├── train
+│   ├── images
+│   └── labels
+└── val
+    ├── images
+    └── labels
+</code></pre>
+<p>Adjunto el siguiente Dataset de Ejemplo para facilitar el familizarizarse
+con el proceso de training:</p>
+<p><a href="../assets/MirenaCones.zip">MirenaCones</a> (200 Img Train/25 Img Val) </p>
+<h1 id="proceso-de-entrenamiento">Proceso de entrenamiento</h1>
+<p>En este caso trabajaremos con notebooks de python en cualquier entorno
+con aceleración hardware para acelerar el proceso. Cargaremos nuestro dataset generado en dicho entorno y los bloques a ejecutar
+serán los siguientes. </p>
+<pre><code class="language-python">!pip install ultralytics #Instala el paquete ultralytics
+</code></pre>
+<pre><code class="language-python">!nvidia-smi # Comprueba si tenemos aceleración grafica nvidia
+</code></pre>
+<pre><code class="language-python">!yolo train model=yolov8n.pt data=/content/datasets/MirenaCones/data.yml epochs=50 # Inicia el proceso de entrenamiento
+</code></pre>
+<p>Terminado el entrenamiento sacamos los mejores pesos y 
+los guardamos a buen recaudo.</p>
+<h2 id="test-de-inferencia">Test de inferencia</h2>
+<p>Podeis probar a ejecutar inferencia contra una imagen de prueba cualquiera mediante:</p>
+<pre><code class="language-python">!yolo predict model=best.pt source=&quot;miImagen.png&quot;
+</code></pre>
+<h2 id="inferencia-en-tiempo-real">Inferencia en tiempo real</h2>
+<p>Dejo el siguiente script para que probeis inferencia en tiempo real 
+contra el topic de ROS2 de la camara.</p>
+<pre><code class="language-python">import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
+import cv2
+from ultralytics import YOLO
+import numpy as np
+
+class YoloV8ObjectDetectionNode(Node):
+    def __init__(self):
+        super().__init__('yolov8_object_detection_node')
+
+        # Parameters
+        self.declare_parameter('video_topic', '/MirenaCam/image')
+        self.declare_parameter('yolo_model_path', 'conesNN.pt')
+
+        self.video_topic = self.get_parameter('video_topic').value
+        self.yolo_model_path = self.get_parameter('yolo_model_path').value
+
+        # Load YOLOv8 model
+        self.model = YOLO(self.yolo_model_path)
+        self.bridge = CvBridge()
+
+        # Subscriber
+        self.subscription = self.create_subscription(
+            Image,
+            self.video_topic,
+            self.image_callback,
+            10
+        )
+
+        self.get_logger().info(f&quot;Subscribed to topic: {self.video_topic}&quot;)
+        self.get_logger().info(f&quot;Loaded YOLO model: {self.yolo_model_path}&quot;)
+
+    def image_callback(self, msg):
+        try:
+            # Convert ROS Image message to OpenCV image
+            frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+
+            # Perform object detection
+            results = self.model(frame)
+
+            annotated_frame = results[0].plot()
+
+            # Display the annotated frame
+            cv2.imshow('YOLOv8 Object Detection', annotated_frame)
+            cv2.waitKey(1)
+
+        except Exception as e:
+            self.get_logger().error(f&quot;Error processing image: {e}&quot;)
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = YoloV8ObjectDetectionNode()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        node.get_logger().info('Shutting down YOLOv8 Object Detection Node')
+    finally:
+        cv2.destroyAllWindows()
+        node.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<p>Si lo ejecutais podreis ver la clasificación en tiempo real de los conos
+y validar si vuestro modelo funciona a gusto.</p>
+<video width="640"  controls>
+    <source src="../assets/demo.mp4" type="video/mp4">
+</video>
+
+<h2 id="anexo">Anexo</h2>
+<p>Script para visualizar los dataset</p>
+<pre><code class="language-python">import os
+import cv2
+
+def load_yolo_annotations(annotation_path, width, height):
+    &quot;&quot;&quot;Load YOLO annotations and convert them to bounding box coordinates.&quot;&quot;&quot;
+    annotations = []
+    with open(annotation_path, 'r') as f:
+        for annotation in f.readlines():
+            parts = annotation.strip().split()
+            class_id = int(parts[0])
+            x_center = float(parts[1])
+            y_center = float(parts[2])
+            w = float(parts[3])
+            h = float(parts[4])
+
+            # Convert to pixel values
+            x_center = int(x_center * width)
+            y_center = int(y_center * height)
+            w = int(w * width)
+            h = int(h * height)
+
+            # Calculate bounding box corners
+            x1 = x_center - w // 2
+            y1 = y_center - h // 2
+            x2 = x_center + w // 2
+            y2 = y_center + h // 2
+
+            annotations.append((class_id, x1, y1, x2, y2))
+    return annotations
+
+def visualize_yolo_annotations(image_path, annotation_path, class_names=None):
+    &quot;&quot;&quot; Visualizes images with YOLO annotations with navigation support. &quot;&quot;&quot;
+    # Load the image using OpenCV
+    image = cv2.imread(image_path)
+    height, width, _ = image.shape
+
+    # Read the annotations for the image
+    annotations = load_yolo_annotations(annotation_path, width, height)
+
+    # Draw bounding boxes
+    for class_id, x1, y1, x2, y2 in annotations:
+        # Draw bounding box (green)
+        cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
+
+        # Optionally, draw the class label
+        if class_names:
+            label = class_names[class_id] if class_id &lt; len(class_names) else str(class_id)
+            cv2.putText(image, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+
+    # Show the image with annotations
+    cv2.imshow('YOLOv8 Annotations', image)
+
+def navigate_images(img_folder, label_folder, class_names=None):
+    &quot;&quot;&quot; Function to navigate through images and their annotations using left and right arrows. &quot;&quot;&quot;
+    img_files = sorted(os.listdir(img_folder))  # Sort images
+    label_files = sorted(os.listdir(label_folder))  # Sort corresponding label files
+    index = 0  # Start from the first image
+
+    # Create a window for image display
+    cv2.namedWindow('YOLOv8 Annotations', cv2.WINDOW_NORMAL)
+
+    while True:
+        # Get the paths of the current image and annotation
+        img_path = os.path.join(img_folder, img_files[index])
+        label_path = os.path.join(label_folder, label_files[index])
+
+        # Visualize the new image and annotations
+        visualize_yolo_annotations(img_path, label_path, class_names)
+
+        # Wait for key press and handle navigation
+        key = cv2.waitKey(0) &amp; 0xFF  # Get key press event
+
+        if key == ord('q'):  # Press 'q' to quit
+            break
+        elif key == 81:  # Left arrow key (ASCII code 81)
+            index -= 1
+        elif key == 83:  # Right arrow key (ASCII code 83)
+            index += 1
+
+        # Make sure the index stays within valid range
+        index = max(0, min(index, len(img_files) - 1))
+
+        # Clear the previous image and annotations (not needed anymore as OpenCV updates the same window)
+        # cv2.destroyAllWindows()  # Not needed in this case
+
+    cv2.destroyAllWindows()  # Close the window when done
+
+# Example usage:
+img_folder = '/home/ozuba/Documentos/MirenaCones/train/images'
+label_folder = '/home/ozuba/Documentos/MirenaCones/train/labels'
+class_names = ['blue', 'yellow']  # Replace with your actual class names
+
+# Start navigation through images
+navigate_images(img_folder, label_folder, class_names)
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../../assets/js/kicanvas.js"></script>
+      
+    
+  </body>
+</html>

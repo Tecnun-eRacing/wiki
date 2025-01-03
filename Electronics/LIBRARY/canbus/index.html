@@ -1,0 +1,1460 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ozuba.eus/eRacingWiki/Electronics/LIBRARY/canbus/">
+      
+      
+        <link rel="prev" href="../../SYSTEMS/ECU/ecu/">
+      
+      
+        <link rel="next" href="../../GNUC/gnuc/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>CAN - Tecnun-eRacing Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/css/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#analisis-tecnico-avanzado-del-protocolo-can" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../../.." title="Tecnun-eRacing Wiki" class="md-header__button md-logo" aria-label="Tecnun-eRacing Wiki" data-md-component="logo">
+      
+  <img src="../../../assets/images/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tecnun-eRacing Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CAN
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../electronics/" class="md-tabs__link">
+          
+  
+  Electronics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Driverless/driverless/" class="md-tabs__link">
+          
+  
+  Driverless
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tecnun-eRacing Wiki" class="md-nav__button md-logo" aria-label="Tecnun-eRacing Wiki" data-md-component="logo">
+      
+  <img src="../../../assets/images/logo.svg" alt="logo">
+
+    </a>
+    Tecnun-eRacing Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Electronics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Electronics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../electronics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Electronics Main Page
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Systems
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Systems
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SYSTEMS/PEDAL/pedal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pedal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SYSTEMS/ECU/ecu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ecu
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Library
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Library
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    CAN
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    CAN
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#especificaciones-fisicas-del-protocolo-can" class="md-nav__link">
+    <span class="md-ellipsis">
+      Especificaciones Físicas del Protocolo CAN
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Especificaciones Físicas del Protocolo CAN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#caracteristicas-electricas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Características Eléctricas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#niveles-de-velocidad-de-transmision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Niveles de Velocidad de Transmisión
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-detallada-del-protocolo-can" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estructura Detallada del Protocolo CAN
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estructura Detallada del Protocolo CAN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formato-de-trama-can-iso-11898-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formato de Trama CAN (ISO 11898-1)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Formato de Trama CAN (ISO 11898-1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trama-de-datos-data-frame" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trama de Datos (Data Frame)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mecanismo-de-arbitraje" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mecanismo de Arbitraje
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mecanismo de Arbitraje">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principio-de-resolucion-de-conflictos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Principio de Resolución de Conflictos
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-de-errores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Control de Errores
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Control de Errores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-errores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tipos de Errores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maquina-de-estados-de-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      Máquina de Estados de Error
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mecanismos-de-sincronizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mecanismos de Sincronización
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mecanismos de Sincronización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bit-timing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bit Timing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tecnicas-de-sincronizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Técnicas de Sincronización
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementacion-en-microcontroladores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementación en Microcontroladores
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementación en Microcontroladores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modulos-can-tipicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Módulos CAN Típicos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-de-pseudocodigo-de-transmision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo de Pseudocódigo de Transmisión
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consideraciones-avanzadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consideraciones Avanzadas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Consideraciones Avanzadas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problemas-de-rendimiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problemas de Rendimiento
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extensiones-modernas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extensiones Modernas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GNUC/gnuc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Driverless
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Driverless
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Driverless/driverless/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Driverless
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    MirenaSim
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            MirenaSim
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Driverless/MirenaSim/MirenaSim/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MirenaSim
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Driverless/MirenaSim/YoloTraining/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    YOLOV8 Train
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#especificaciones-fisicas-del-protocolo-can" class="md-nav__link">
+    <span class="md-ellipsis">
+      Especificaciones Físicas del Protocolo CAN
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Especificaciones Físicas del Protocolo CAN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#caracteristicas-electricas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Características Eléctricas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#niveles-de-velocidad-de-transmision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Niveles de Velocidad de Transmisión
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-detallada-del-protocolo-can" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estructura Detallada del Protocolo CAN
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estructura Detallada del Protocolo CAN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formato-de-trama-can-iso-11898-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formato de Trama CAN (ISO 11898-1)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Formato de Trama CAN (ISO 11898-1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trama-de-datos-data-frame" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trama de Datos (Data Frame)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mecanismo-de-arbitraje" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mecanismo de Arbitraje
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mecanismo de Arbitraje">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principio-de-resolucion-de-conflictos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Principio de Resolución de Conflictos
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-de-errores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Control de Errores
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Control de Errores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-errores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tipos de Errores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maquina-de-estados-de-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      Máquina de Estados de Error
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mecanismos-de-sincronizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mecanismos de Sincronización
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mecanismos de Sincronización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bit-timing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bit Timing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tecnicas-de-sincronizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Técnicas de Sincronización
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementacion-en-microcontroladores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementación en Microcontroladores
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementación en Microcontroladores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modulos-can-tipicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Módulos CAN Típicos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-de-pseudocodigo-de-transmision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo de Pseudocódigo de Transmisión
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consideraciones-avanzadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consideraciones Avanzadas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Consideraciones Avanzadas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problemas-de-rendimiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problemas de Rendimiento
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extensiones-modernas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extensiones Modernas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="analisis-tecnico-avanzado-del-protocolo-can">Análisis Técnico Avanzado del Protocolo CAN</h1>
+<h2 id="especificaciones-fisicas-del-protocolo-can">Especificaciones Físicas del Protocolo CAN</h2>
+<h3 id="caracteristicas-electricas">Características Eléctricas</h3>
+<ul>
+<li><strong>Nivel de Señal</strong>: Diferencial de voltaje entre CAN_H y CAN_L</li>
+<li>Estado dominante (lógico 0): CAN_H ≈ 3.5V, CAN_L ≈ 1.5V</li>
+<li>Estado recesivo (lógico 1): CAN_H ≈ 2.5V, CAN_L ≈ 2.5V</li>
+<li><strong>Rango de Voltaje</strong>: Típicamente 0-5V</li>
+<li><strong>Impedancia Característica</strong>: 120 Ω (resistencia de terminación)</li>
+</ul>
+<h3 id="niveles-de-velocidad-de-transmision">Niveles de Velocidad de Transmisión</h3>
+<table>
+<thead>
+<tr>
+<th>Velocidad</th>
+<th>Distancia Máxima</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Mbps</td>
+<td>Hasta 40 metros</td>
+<td>Alta velocidad, corta distancia</td>
+</tr>
+<tr>
+<td>500 Kbps</td>
+<td>Hasta 100 metros</td>
+<td>Configuración estándar en automoción</td>
+</tr>
+<tr>
+<td>250 Kbps</td>
+<td>Hasta 250 metros</td>
+<td>Aplicaciones industriales medianas</td>
+</tr>
+<tr>
+<td>125 Kbps</td>
+<td>Hasta 500 metros</td>
+<td>Redes de largo alcance</td>
+</tr>
+<tr>
+<td>10 Kbps</td>
+<td>Hasta 1000 metros</td>
+<td>Redes de muy baja velocidad</td>
+</tr>
+</tbody>
+</table>
+<h2 id="estructura-detallada-del-protocolo-can">Estructura Detallada del Protocolo CAN</h2>
+<h3 id="formato-de-trama-can-iso-11898-1">Formato de Trama CAN (ISO 11898-1)</h3>
+<h4 id="trama-de-datos-data-frame">Trama de Datos (Data Frame)</h4>
+<ol>
+<li><strong>Inicio (SOF - Start of Frame)</strong></li>
+<li>Bit dominante que indica el inicio de transmisión</li>
+<li>
+<p>Sincronización de todos los nodos</p>
+</li>
+<li>
+<p><strong>Identificador</strong></p>
+</li>
+<li>CAN 2.0A (11 bits)</li>
+<li>CAN 2.0B (29 bits extendidos)</li>
+<li>Define prioridad del mensaje</li>
+<li>
+<p>Método de identificación única</p>
+</li>
+<li>
+<p><strong>Bits de Control</strong></p>
+</li>
+<li><strong>IDE (Identifier Extension)</strong>: Indica formato estándar o extendido</li>
+<li><strong>RTR (Remote Transmission Request)</strong>: Diferencia entre trama de datos y remota</li>
+<li>
+<p><strong>DLC (Data Length Code)</strong>: Longitud de datos (0-8 bytes)</p>
+</li>
+<li>
+<p><strong>Campo de Datos</strong></p>
+</li>
+<li>Máximo 8 bytes de información</li>
+<li>
+<p>Transmisión bit a bit, comenzando por el bit más significativo</p>
+</li>
+<li>
+<p><strong>CRC (Cyclic Redundancy Check)</strong></p>
+</li>
+<li>Polinomio generador: x^15 + x^14 + x^10 + x^8 + x^7 + x^4 + x^3 + 1</li>
+<li>15 bits de verificación de error</li>
+<li>
+<p>Detección de hasta 5 bits de error consecutivos</p>
+</li>
+<li>
+<p><strong>Campo de Reconocimiento (ACK)</strong></p>
+</li>
+<li>Bit de ACK dominante confirma recepción correcta</li>
+<li>
+<p>Transmitido por cualquier nodo receptor</p>
+</li>
+<li>
+<p><strong>Delimitadores y Fin de Trama</strong></p>
+</li>
+<li>Bits recesivos que marcan fin de transmisión</li>
+</ol>
+<h3 id="mecanismo-de-arbitraje">Mecanismo de Arbitraje</h3>
+<h4 id="principio-de-resolucion-de-conflictos">Principio de Resolución de Conflictos</h4>
+<ul>
+<li>Implementa resolución bit a bit</li>
+<li>Nodos monitorizan el bus durante la transmisión</li>
+<li>Si un nodo escribe un bit dominante mientras otro escribe recesivo, prevalece el bit dominante</li>
+<li>El identificador más bajo (más bits dominantes) gana el arbitraje</li>
+</ul>
+<h3 id="control-de-errores">Control de Errores</h3>
+<h4 id="tipos-de-errores">Tipos de Errores</h4>
+<ol>
+<li><strong>Error de Bit</strong></li>
+<li>
+<p>Detección de inconsistencia entre bit transmitido y observado</p>
+</li>
+<li>
+<p><strong>Error de Stuffing</strong></p>
+</li>
+<li>Verifica la inserción correcta de bits de relleno</li>
+<li>
+<p>Máximo 5 bits consecutivos idénticos</p>
+</li>
+<li>
+<p><strong>Error de CRC</strong></p>
+</li>
+<li>
+<p>Fallo en la verificación del checksum</p>
+</li>
+<li>
+<p><strong>Error de Form</strong></p>
+</li>
+<li>
+<p>Violación de formato de trama esperado</p>
+</li>
+<li>
+<p><strong>Error de Acknowledge</strong></p>
+</li>
+<li>Ausencia de confirmación de recepción</li>
+</ol>
+<h4 id="maquina-de-estados-de-error">Máquina de Estados de Error</h4>
+<ul>
+<li><strong>Error Activo</strong>: Transmite tramas de error</li>
+<li><strong>Error Pasivo</strong>: Espera recuperación del bus</li>
+<li><strong>Bus Off</strong>: Desconexión temporal del bus tras múltiples errores</li>
+</ul>
+<h3 id="mecanismos-de-sincronizacion">Mecanismos de Sincronización</h3>
+<h4 id="bit-timing">Bit Timing</h4>
+<ul>
+<li><strong>Segmentación del Bit</strong>:</li>
+<li>Sampling Point</li>
+<li>Synchronization Segment</li>
+<li>Propagation Time Compensation</li>
+</ul>
+<h4 id="tecnicas-de-sincronizacion">Técnicas de Sincronización</h4>
+<ul>
+<li>Hard Synchronization</li>
+<li>Resynchronization</li>
+<li>Bit Stuffing</li>
+</ul>
+<h2 id="implementacion-en-microcontroladores">Implementación en Microcontroladores</h2>
+<h3 id="modulos-can-tipicos">Módulos CAN Típicos</h3>
+<ul>
+<li>Registro de máscara de filtrado</li>
+<li>Búfer de transmisión y recepción</li>
+<li>Controlador de interrupciones</li>
+<li>Generador de velocidad de baudios</li>
+</ul>
+<h3 id="ejemplo-de-pseudocodigo-de-transmision">Ejemplo de Pseudocódigo de Transmisión</h3>
+<pre><code class="language-c">void can_transmit(uint32_t id, uint8_t* data, uint8_t length) {
+    // Configurar identificador
+    CAN_TxMsg.id = id;
+    CAN_TxMsg.length = length;
+
+    // Copiar datos
+    for(uint8_t i = 0; i &lt; length; i++) {
+        CAN_TxMsg.data[i] = data[i];
+    }
+
+    // Iniciar transmisión
+    CAN_SendMessage(&amp;CAN_TxMsg);
+}
+</code></pre>
+<h2 id="consideraciones-avanzadas">Consideraciones Avanzadas</h2>
+<h3 id="problemas-de-rendimiento">Problemas de Rendimiento</h3>
+<ul>
+<li>Latencia variable</li>
+<li>Overhead de arbitraje</li>
+<li>Limitaciones de ancho de banda</li>
+</ul>
+<h3 id="extensiones-modernas">Extensiones Modernas</h3>
+<ul>
+<li>CAN FD (Flexible Data-Rate)</li>
+<li>CAN XL</li>
+<li>Mejoras en velocidad y longitud de datos</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../../assets/js/kicanvas.js"></script>
+      
+    
+  </body>
+</html>
